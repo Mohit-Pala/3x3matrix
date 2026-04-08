@@ -1,0 +1,9 @@
+if SHIELD_HANDWIRED_3X3
+
+config ZMK_KEYBOARD_NAME
+    default "3x3 Matrix"
+
+config ZMK_SLEEP
+    default y
+
+endif

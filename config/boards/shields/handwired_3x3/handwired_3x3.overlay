@@ -1,0 +1,48 @@
+/*
+ * 3x3 Handwired Matrix — Nice Nano v2
+ *
+ * Rows (col2row, diodes in row legs, cathode toward row wire):
+ *   Row 0 → P0.11  (D7)
+ *   Row 1 → P1.00  (D6)
+ *   Row 2 → P0.24  (D5)
+ *
+ * Cols (switches interconnected per column):
+ *   Col 0 → P0.22  (D4)  ["022"]
+ *   Col 1 → P0.20  (D3)  ["200" interpreted as P0.20]
+ *   Col 2 → P0.17  (D2)  ["017"]
+ */
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,matrix_transform = &default_transform;
+    };
+
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <3>;
+        rows = <3>;
+        map = <
+            RC(0,0) RC(0,1) RC(0,2)
+            RC(1,0) RC(1,1) RC(1,2)
+            RC(2,0) RC(2,1) RC(2,2)
+        >;
+    };
+
+    kscan0: kscan {
+        compatible = "zmk,kscan-gpio-matrix";
+        diode-direction = "col2row";
+
+        col-gpios
+            = <&gpio0 22 GPIO_ACTIVE_HIGH>
+            , <&gpio0 20 GPIO_ACTIVE_HIGH>
+            , <&gpio0 17 GPIO_ACTIVE_HIGH>
+            ;
+
+        row-gpios
+            = <&gpio0 11 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio1 0  (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            , <&gpio0 24 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>
+            ;
+    };
+};
